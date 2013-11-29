@@ -1,12 +1,13 @@
-# Vert.x Gradle Template
+# Transponder
 
-Template project for creating a Vert.x module with a Gradle build.
+Transponder is a simple component which subscribes to a broadcast address to which it posts status updates about the
+local conjoiner application ecosystem. It should publish occational updates as-well as respond to specific enquiries
+and general enquiries from other conjoiner nodes. Status updates should include:
+1. version info of all modules
 
-Clone this and adapt it to easily develop Vert.x modules using Gradle as your build tool.
+Potentially, transponder could publish messages to localhost.transponder and allow locally deployed
+veriticals to respond with their respective status updates and forward them along to the BCAST address.
+It is possible to have each vertical take care of its own status updates, solving the configuration however this requires per module configuration
+as to which topics. Its perhaps easier to define a `status` responder within each
 
-By default this module contains a simple Java verticle which listens on the event bus and responds to `ping!`
-messages with `pong!`.
 
-This template also shows you how to write tests in Java, Groovy, Ruby and Python
-
-See the [build script](build.gradle) for the list of useful tasks

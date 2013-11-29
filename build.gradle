@@ -60,6 +60,9 @@ dependencies {
   // If you're creating Groovy compiled verticles you may need the following dependencies
   provided "org.codehaus.groovy:groovy-all:$groovyVersion"
   provided "io.vertx:lang-groovy:$groovyLangModVersion@jar"
+//  compile "com.thoughtworks.xstream:xstream:1.4.2"
+//  compile "org.codehaus.jettison:jettison:1.3.4"
+//  compile "net.sf.flexjson:flexjson:2.1"
 
 }
 
@@ -68,6 +71,9 @@ test {
   include 'org/foo/**'
   exclude 'org/boo/**'
   */
+
+    include 'com/deblox/mods/transponder/test/**'
+
 
 }
 

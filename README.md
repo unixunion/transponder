@@ -11,3 +11,8 @@ It is possible to have each vertical take care of its own status updates, solvin
 as to which topics. Its perhaps easier to define a `status` responder within each
 
 
+Running Transponder
+ertx run src/main/java/com/deblox/mods/transponder/Transponder.java -cluster  -cluster-port 25501 -cluster-host 127.0.0.1 -Djava.util.logging.config.file="/opt/vert.x-2.0.1-final/conf/logging.properties"
+
+Running SimpleVertical
+vertx run src/main/java/com/deblox/mods/transponder/SimpleVertical.java  -cluster   -cluster-host 127.0.0.1

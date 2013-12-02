@@ -40,6 +40,17 @@ public class Boot extends Verticle{
             }
         });
 
+        logger.info("Deploying com.deblox.mods.transponder.SimpleVertical...");
+        container.deployVerticle("com.deblox.mods.transponder.SimpleVertical", transponderConf ,new AsyncResultHandler<String>() {
+            public void handle(AsyncResult<String> deployResult) {
+                if (deployResult.succeeded()) {
+                    startedResult.setResult(null);
+                } else {
+                    startedResult.setFailure(deployResult.cause());
+                }
+            }
+        });
+
 
 //        logger.info("DEPLOYING IO.VERTX MOD AUTH");
 //

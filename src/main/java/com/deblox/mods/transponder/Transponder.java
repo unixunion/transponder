@@ -14,8 +14,11 @@ import org.vertx.java.core.Handler;
 import org.vertx.java.core.eventbus.Message;
 import org.vertx.java.core.json.JsonObject;
 
+import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,12 +34,12 @@ public class Transponder extends BusModBase implements Handler<Message<JsonObjec
     *
      */
 
-    private String hostname;
-    private String hostaddress; // the public side interface eg: server01.mydomain.com.host
-    private String nodebus;
-    private String clusterbus;
-    private Integer uniqueIdentifier;
-    private Logger logger = Logger.getLogger("Transponder");
+    protected String hostname;
+    protected String hostaddress; // the public side interface eg: server01.mydomain.com.host
+    protected String nodebus;
+    protected String clusterbus;
+    protected Integer uniqueIdentifier; // This should be some kind of unique message queue to this host
+    protected Logger logger = Logger.getLogger("Transponder");
 
     @Override
     public void start() {
@@ -64,6 +67,7 @@ public class Transponder extends BusModBase implements Handler<Message<JsonObjec
         logger.info("HOSTADDRESS address: " + this.hostaddress);
         eb.registerHandler(this.nodebus, this);
         eb.registerHandler(this.clusterbus, this);
+        eb.registerHandler(this.hostaddress, this);
     }
 
     // This handle method is used for dealing with messages from both the nodebus and clusterbus
@@ -124,9 +128,16 @@ public class Transponder extends BusModBase implements Handler<Message<JsonObjec
     }
 
     // unique identified for this instance based on the hostname and timestamp
-    public Integer generateIdentifier() {
-        Integer uniqueIdentifier = new String(this.hostname + String.valueOf(new Date().getTime())).hashCode();
-        return uniqueIdentifier;
+    public String generateIdentifier() throws NoSuchAlgorithmException {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            String hex = (new HexBinaryAdapter()).marshal(md.digest(new String(this.hostname + String.valueOf(new Date().getTime())).getBytes()));
+//            Integer uniqueIdentifier = new String(this.hostname + String.valueOf(new Date().getTime())).hashCode();
+            return hex;
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
 

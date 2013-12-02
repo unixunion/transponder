@@ -12,28 +12,31 @@ import static org.junit.Assert.*;
  * Created by keghol on 11/29/13.
  */
 
-
-public class TransponderMessageTest {
+public class TransponderMessageUnitTest {
 
     TransponderMessage prepared_mesg;
     String json_string;
-    private Logger logger = Logger.getLogger("Transponder");
+    private Logger logger = Logger.getLogger("TransponderMessageUnitTest");
 
     @Before
     public void setUp() throws Exception {
         // All tests kind of depend on the ability to create a new TransponderMessage from newMessage() method.
-        this.json_string = "{\"srcHost\":\"STHMACLT009.local\",\"dstHost\":\"\",\"timestamp\":1385836320954,\"msgType\":\"REPLY\",\"msgBody\":\"\",\"origin\":\"\"}";
+        this.json_string = "{\"srcHost\":\"STHMACLT009.local\",\"dstHost\":\"\",\"timestamp\":1385836320954,\"msgType\":\"REPLY\",\"msgBody\":\"{}\",\"module\":\"test\"}";
         this.prepared_mesg = new TransponderMessage().newMessage();
     }
 
     @Test
     public void testNewMessage() {
        TransponderMessage msg = new TransponderMessage().newMessage();
+        // Check the class is right
         assertEquals(new TransponderMessage().getClass(), msg.getClass());
+        // Check the newMessage method set the module to "transponder"
+        assertEquals("transponder", msg.getModule());
     }
 
     @Test
     public void testNewMessageType() {
+        // Create a new message of type HEARTBEAT
         TransponderMessage msg = new TransponderMessage().newMessage(TransponderMessage.MsgType.HEARTBEAT);
         assertEquals(TransponderMessage.MsgType.HEARTBEAT, msg.getMsgType());
     }
@@ -46,51 +49,7 @@ public class TransponderMessageTest {
         assertEquals(json_string, nm.toJsonString());
     }
 
-//    @Test
-//    public void testGetMsgType() {
-//        assertEquals(prepared_mesg.getMsgType(), TransponderMessage.MsgType.UNKNOWN);
-//    }
-//
-//    @Test
-//    public void testSetSrcHost() {
-//        // also indirectly tests getSrcHost
-//        TransponderMessage msg = new TransponderMessage().newMessage();
-//        msg.setSrcHost("Foo");
-//        assertEquals("Foo", msg.getSrcHost());
-//    }
-//
-//    @Test
-//    public void testSetTimestamp() {
-//        // Tests getter also
-//        long ts = new Long(0);
-//        prepared_mesg.setTimestamp(ts);
-//        assertEquals(ts, prepared_mesg.getTimestamp());
-//
-//    }
-
-//    public void testSetMsgType() {
-//        prepared_mesg.setMsgType(TransponderMessage.MsgType.ACK);
-//
-//    }
-//
-//    public void testGetSrcHost() {
-//
-//    }
-//
-//    public void testGetMsgBody() {
-//
-//    }
-//
-//    public void testToTransponderMessage() {
-//
-//    }
-
-    public void testJsonToObject() {
-
-
-    }
-
-
+    // not sure how to test this since we need an eventbus message
     public void testMessageToObject() {
 
     }

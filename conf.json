@@ -1,5 +1,10 @@
 // Example JSON config file
 
 {
-  "foo": "bar"
+  "transponder_conf": {
+      "HOSTNAME": "localhost",
+      "NODEBUS": "mybus.local",
+      "CLUSTERBUS": "mycluster",
+      "HOSTADDRESS": "mymac.mydomain.com"
+  }
 }

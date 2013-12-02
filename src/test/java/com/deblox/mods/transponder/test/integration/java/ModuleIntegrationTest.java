@@ -1,4 +1,4 @@
-package com.deblox.mods.transponder;/*
+package com.deblox.mods.transponder.test.integration.java;/*
  * Copyright 2013 Red Hat, Inc.
  *
  * Red Hat licenses this file to you under the Apache License, version 2.0
@@ -42,8 +42,8 @@ public class ModuleIntegrationTest extends TestVerticle {
   @Test
   public void testPing() {
     container.logger().info("in testPing()");
-    TransponderMessage rmsg = new TransponderMessage().newMessage(TransponderMessage.MsgType.TEST).origin("test");
-    container.logger().info("sending message: " +rmsg.toJsonString());
+    TransponderMessage rmsg = new TransponderMessage().newMessage(TransponderMessage.MsgType.TEST);
+    container.logger().info("sending message: " + rmsg.toJsonString());
     vertx.eventBus().send("conjoiner.clusterbus", rmsg.toJsonString(), new Handler<Message<String>>() {
       @Override
       public void handle(Message<String> reply) {

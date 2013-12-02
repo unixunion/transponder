@@ -18,7 +18,7 @@ import java.util.zip.DataFormatException;
 public class SimpleVertical extends BusModBase implements Handler<Message<JsonObject>> {
 
     private String local_nodebus; // the local_nodebus we subscribe this module to
-//    private String cluster_eventbus; // the cluster eventbus we subscribe to ( if any )
+    private String cluster_eventbus; // the cluster eventbus we subscribe to ( if any )
     private Logger logger = Logger.getLogger("Transponder");
     private String hostname;
 
@@ -46,12 +46,13 @@ public class SimpleVertical extends BusModBase implements Handler<Message<JsonOb
         // Get MODBUS config or set default
         logger.info("subscribing to: " + this.local_nodebus);
         this.local_nodebus = getOptionalStringConfig("NODEBUS", this.hostname + ".local");
-//        this.cluster_eventbus = getOptionalStringConfig("CLUSTERBUS", "conjoiner.clusterbus");
+        this.cluster_eventbus = getOptionalStringConfig("CLUSTERBUS", "conjoiner.clusterbus");
 
         logger.info("Handler local_nodebus to: " + this.local_nodebus);
 
         // Start my private periodic handler which sends heartbeat messages and deals with replies
         vertx.setPeriodic(5000, new PeriodicHandler(this.local_nodebus));
+        vertx.setPeriodic(5000, new PeriodicHandler(this.cluster_eventbus));
 
         // Create a subscription to the nodebus to handle incomming messages
         vertx.eventBus().registerHandler(this.local_nodebus, this);
